@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
-using UserApi.Dtos;
+using UserApi.Application.DTOs;
 
 namespace UserApi.Tests;
 
@@ -126,6 +126,6 @@ public class UserEndpointsTests
         secondResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         var errorBody = await secondResponse.Content.ReadAsStringAsync();
-        errorBody.Should().Contain("Email");
+        errorBody.Should().Contain("email");
     }
 }

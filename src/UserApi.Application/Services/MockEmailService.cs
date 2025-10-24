@@ -1,4 +1,6 @@
-﻿namespace UserApi.Service;
+﻿using UserApi.Application.Interfaces;
+
+namespace UserApi.Application.Services;
 
 public class MockEmailService : IEmailService
 {

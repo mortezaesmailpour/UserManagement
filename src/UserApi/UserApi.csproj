@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UserApi.Infrastructure\UserApi.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

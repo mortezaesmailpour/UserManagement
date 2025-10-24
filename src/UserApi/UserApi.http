@@ -6,12 +6,12 @@ Content-Type: application/json
 
 {
   "name": "Morteza Esmailpour",
-  "email": "morteza@example.com",
+  "email": "morteza2@example.com",
   "password": "Pass12345"
 }
 
 ###
 
-GET {{baseUrl}}/users/6ec905ac-fecf-40a9-bae1-8d42991871e8
+GET {{baseUrl}}/users/a0386dd5-2cec-4bc3-846a-147fa440e509
 
 ###

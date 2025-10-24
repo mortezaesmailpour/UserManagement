@@ -5,14 +5,14 @@ using UserApi.Infrastructure.Data;
 
 namespace UserApi.Infrastructure.Repositories;
 
-public class UserRepository(UserDbContext context) : IUserRepository
+public class UserRepository(AppDbContext context) : IUserRepository
 {
-    public async Task<User?> GetByIdAsync(Guid id)
+    public async Task<User?> GetByIdAsync(string id)
     {
         return await context.Users.FindAsync(id);
     }
 
-    public async Task<User?> GetByEmailAsync(string email)
+    public async Task<User> GetByEmailAsync(string email)
     {
         return await context.Users.FirstOrDefaultAsync(u => u.Email == email);
     }
