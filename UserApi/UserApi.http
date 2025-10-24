@@ -12,6 +12,6 @@ Content-Type: application/json
 
 ###
 
-GET {{baseUrl}}/users/00000000-0000-0000-0000-000000000000
+GET {{baseUrl}}/users/6ec905ac-fecf-40a9-bae1-8d42991871e8
 
 ###
