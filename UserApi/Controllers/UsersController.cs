@@ -1,7 +1,4 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using UserApi.Service;
 
 namespace UserApi.Controllers;
 
@@ -19,6 +16,7 @@ public class UsersController(IUserService userService, IValidator<CreateUserDto>
         try
         {
             var createdUser = await userService.CreateUserAsync(dto);
+            logger.LogInformation("User created with ID: {UserId}", createdUser.Id);
             return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
         }
         catch (InvalidOperationException ex)
@@ -33,7 +31,6 @@ public class UsersController(IUserService userService, IValidator<CreateUserDto>
         try
         {
             var user = await userService.GetUserByIdAsync(id);
-            if (user == null) return NotFound();
             return Ok(user);
         }
         catch (KeyNotFoundException ex)

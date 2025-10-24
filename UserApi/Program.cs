@@ -1,7 +1,3 @@
-using FluentValidation;
-using UserApi.Data;
-using UserApi.Service;
-using UserApi.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 

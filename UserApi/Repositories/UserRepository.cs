@@ -1,6 +1,4 @@
-﻿using UserApi.Data;
-
-namespace UserApi.Repositories;
+﻿namespace UserApi.Repositories;
 
 public class UserRepository(UserDbContext context) : IUserRepository
 {

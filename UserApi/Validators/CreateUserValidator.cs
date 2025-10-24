@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace UserApi.Validators;
+﻿namespace UserApi.Validators;
 
 public class CreateUserValidator : AbstractValidator<CreateUserDto>
 {
