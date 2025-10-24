@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using UserApi.Application.Interfaces;
 using UserApi.Infrastructure.Data;
 using UserApi.Infrastructure.Repositories;
@@ -20,5 +21,14 @@ public static class DependencyInjection
         services.AddHostedService<EmailBackgroundWorker>();
 
         return services;
+    }
+    public static IHost AddInfrastructure(this IHost application)
+    {
+        using (var scope = application.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            db.Database.EnsureCreated();
+        }
+        return application;
     }
 }
