@@ -1,16 +1,21 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using UserApi.Service;
 
 namespace UserApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UsersController(IUserService userService, ILogger<UsersController> logger) : ControllerBase
+public class UsersController(IUserService userService, IValidator<CreateUserDto> validator, ILogger<UsersController> logger) : ControllerBase
 {
 
     [HttpPost]
     public async Task<IActionResult> CreateUser(CreateUserDto dto)
     {
+        var result = await validator.ValidateAsync(dto);
+        if (!result.IsValid)
+            return BadRequest(result.Errors.Select(e => e.ErrorMessage));
         try
         {
             var createdUser = await userService.CreateUserAsync(dto);
