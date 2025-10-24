@@ -5,9 +5,9 @@ using UserApi.Application.Interfaces;
 
 namespace UserApi.Application.Services;
 
-public class EmailService(IConfiguration config) : IEmailService
+public class EmailSenderService(IConfiguration config) : IEmailSenderService
 {
-    public async Task SendWelcomeEmail(string toEmail, string name)
+    public async Task SendAsync(string to, string subject, string body)
     {
         var emailSettings = config.GetSection("EmailSettings");
 
@@ -20,11 +20,11 @@ public class EmailService(IConfiguration config) : IEmailService
         var mailMessage = new MailMessage
         {
             From = new MailAddress(emailSettings["SenderEmail"]!),
-            Subject = "Welcome!",
-            Body = $"Dear {name},\nWelcome to our site!!!",
+            Subject = subject,
+            Body = body,
             IsBodyHtml = false
         };
-        mailMessage.To.Add(toEmail);
+        mailMessage.To.Add(to);
 
         await client.SendMailAsync(mailMessage);
     }

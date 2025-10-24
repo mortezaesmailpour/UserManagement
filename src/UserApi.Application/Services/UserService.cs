@@ -7,7 +7,7 @@ using UserApi.Domain.Exceptions;
 
 namespace UserApi.Application.Services;
 
-public class UserService(UserManager<User> userManager, IEmailService emailService) : IUserService
+public class UserService(UserManager<User> userManager, IQueuedEmailRepository queuedEmailRepository) : IUserService
 {
     public async Task<ReadUserDto> CreateUserAsync(CreateUserDto dto)
     {
@@ -26,10 +26,18 @@ public class UserService(UserManager<User> userManager, IEmailService emailServi
         if (!result.Succeeded)
             throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
 
-        await emailService.SendWelcomeEmail(user.Email, user.Name);
+        await queuedEmailRepository.AddAsync(CreateWelcomeEmail(user.Email, user.Name));
 
         return user.ToDto();
     }
+
+    private static EmailQueue CreateWelcomeEmail(string email, string name) => new()
+    {
+        To = email,
+        Subject = "Welcome!",
+        Body = $"Dear {name},\nWelcome to our site!!!",
+        IsSent = false
+    };
 
     public async Task<ReadUserDto?> GetUserByIdAsync(string id)
     {

@@ -7,6 +7,8 @@ using UserApi.Application.Services;
 using UserApi.Application.Validators;
 using UserApi.Domain.Entities;
 using UserApi.Infrastructure.Data;
+using UserApi.Infrastructure.Repositories;
+using UserApi.Infrastructure.Workers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IValidator<CreateUserDto>, CreateUserValidator>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IEmailService, MockEmailService>();
+builder.Services.AddScoped<IEmailSenderService, MockEmailSenderService>();
+builder.Services.AddScoped<IQueuedEmailRepository, QueuedEmailRepository>();
+builder.Services.AddHostedService<EmailBackgroundWorker>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
