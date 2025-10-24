@@ -1,6 +1,6 @@
 ﻿using UserApi.Application.Interfaces;
 
-namespace UserApi.Application.Services;
+namespace UserApi.Infrastructure.Workers;
 
 public class MockEmailSenderService : IEmailSenderService
 {

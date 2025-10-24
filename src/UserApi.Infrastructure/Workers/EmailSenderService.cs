@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Mail;
 using UserApi.Application.Interfaces;
 
-namespace UserApi.Application.Services;
+namespace UserApi.Infrastructure.Workers;
 
 public class EmailSenderService(IConfiguration config) : IEmailSenderService
 {

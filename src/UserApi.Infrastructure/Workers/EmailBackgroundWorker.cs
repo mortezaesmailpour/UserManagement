@@ -39,11 +39,4 @@ public class EmailBackgroundWorker(IServiceScopeFactory scopeFactory, ILogger<Em
             await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
         }
     }
-
-    private Task SendEmailAsync(string to, string subject, string body)
-    {
-        // For demo — replace with real SMTP client logic
-        Console.WriteLine($"📧 Sending email to {to}: {subject}");
-        return Task.CompletedTask;
-    }
 }

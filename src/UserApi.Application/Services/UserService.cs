@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Data;
 using UserApi.Application.DTOs;
 using UserApi.Application.Interfaces;
 using UserApi.Application.Mappers;
@@ -11,10 +12,6 @@ public class UserService(UserManager<User> userManager, IQueuedEmailRepository q
 {
     public async Task<ReadUserDto> CreateUserAsync(CreateUserDto dto)
     {
-        var existing = await userManager.FindByEmailAsync(dto.Email);
-        if (existing != null)
-            throw new UserAlreadyExistsException($"A user with email {dto.Email} already exists.");
-
         var user = new User
         {
             Name = dto.Name,
@@ -24,8 +21,12 @@ public class UserService(UserManager<User> userManager, IQueuedEmailRepository q
 
         var result = await userManager.CreateAsync(user, dto.Password);
         if (!result.Succeeded)
-            throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
-
+        {
+            if (result.Errors.Any(x => x.Code == "DuplicateUserName" || x.Code == "DuplicateEmail"))
+                throw new UserAlreadyExistsException($"A user with email {dto.Email} already exists.");
+            else
+                throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
         await queuedEmailRepository.AddAsync(CreateWelcomeEmail(user.Email, user.Name));
 
         return user.ToDto();
